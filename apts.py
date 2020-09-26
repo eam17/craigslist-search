@@ -35,11 +35,41 @@ def find_posts():
 #found_posts_key = {}
 
 
-#def find_posts_key(keyword):
-    ###for post in posts:
-        #post_title = post.find('a', class_='result-title hdrlnk')
-       # post_title_text = post_title.text
-       # if keyword in post_title_text:
-        #    post_title_id = post_title['data-id']
-       #     found_posts_key[post_title_id] = post
- #   return found_posts_key
+def find_posts_key(keyarray, url):
+    response = get('https://denver.craigslist.org/search/zip?')
+    print("got response")
+    html_soup = BeautifulSoup(response.text, 'html.parser')
+    # get the macro-container for the posts
+    posts = html_soup.find_all('li', class_='result-row')
+    found_posts_key_arr = []
+    for post in posts:
+        post_title = post.find('a', class_='result-title hdrlnk').text
+        post_title_lst = convert(post_title)
+        for keyword in keyarray:
+            if keyword in post_title_lst:
+                found_posts_key_arr.append(post)
+    return found_posts_key_arr.copy()
+
+
+def convert(lst):
+    lst = lst.split()
+    resultList = []
+    for l in lst:
+        resultList.append(l.lower())
+    return resultList
+
+
+def find_posts_key_r(keyarray, url):
+    response = get('https://williamsport.craigslist.org/search/zip?')
+    print("got response")
+    html_soup = BeautifulSoup(response.text, 'html.parser')
+    # get the macro-container for the posts
+    posts = html_soup.find_all('li', class_='result-row')
+    found_posts_key_arr = []
+    for post in posts:
+        post_title = post.find('a', class_='result-title hdrlnk').text
+        post_title_lst = convert(post_title)
+        for keyword in keyarray:
+            if keyword in post_title_lst:
+                found_posts_key_arr.append(post)
+    return found_posts_key_arr.copy()

@@ -6,9 +6,9 @@ import apts
 from datetime import datetime
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-keyarray = ["bike", "table", "ikea", "wood", "plane", "tool", "tools", "chisel", "chisels", "desk", "saw"]
-url = 'https://denver.craigslist.org/search/zip?'
+#TOKEN = os.getenv('NzU4NzAyOTMxMzIyNjAxNDgy.X2yzKg.gfVH6Od31geYJLnEwxzqhasv4DY')
+keyarray = ["curtains", "curtain", "chicken", "wire", "card", "table", "cushions", "cushion"]
+url = ""
 
 class MyClient(discord.Client):
     def __init__(self, *args, **kwargs):
@@ -25,15 +25,17 @@ class MyClient(discord.Client):
         print("gonna wait..")
         await self.wait_until_ready()
 
-        channel = self.get_channel(747626115996319745)  # channel ID goes here
-        #await channel.send("starting search")
+        channel = self.get_channel(758701894918602755)  # channel ID goes here
+
+        await channel.send("looking for new posts with words: ")
+        await channel.send(keyarray)
         #print("looking for old posts")
-        old_found_posts = list(apts.find_posts_key(keyarray, url))
+        old_found_posts = list(apts.find_posts_key_r(keyarray, url))
         print("before the while loop")
         while not self.is_closed():  # while(true)
             counter = 0
             words = []
-            new_found_posts = list(apts.find_posts_key(keyarray, url))
+            new_found_posts = list(apts.find_posts_key_r(keyarray, url))
             old_post_title = old_found_posts[0].find('a', class_='result-title hdrlnk')
             old_post_title_id = old_post_title['data-id']
             #print(old_found_posts[0].find('a', class_='result-title hdrlnk').text)
@@ -69,4 +71,4 @@ class MyClient(discord.Client):
 
 
 client = MyClient()
-client.run(TOKEN)
+client.run("NzU4NzAyOTMxMzIyNjAxNDgy.X2yzKg.gfVH6Od31geYJLnEwxzqhasv4DY")
