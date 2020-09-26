@@ -5,7 +5,7 @@ from scrapy import Request
 class Sales0919Spider(scrapy.Spider):
     name = 'sales_09_19'
     allowed_domains = ['craigslist.org']
-    start_urls = ['https://denver.craigslist.org/search/gms?sale_date=2020-09-19/']
+    start_urls = ['https://denver.craigslist.org/search/gms?sale_date=2020-09-26/']
 
     def parse(self, response):
         # Scrape all the result-info wrappers

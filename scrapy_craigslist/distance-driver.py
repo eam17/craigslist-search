@@ -2,14 +2,13 @@ import csv
 from sys import maxsize
 import pandas as pd
 import matplotlib.pyplot as plt
+import folium
 
 df = pd.read_csv('result.csv')
 # print(df)
 
 threshold = .01
-home = [['Home'],
-          [39.7190608],
-          [-104.8170952]]
+home = [['Home'], [39.7190608], [-104.8170952]]
 
 
 # distance sq (easy to compute)
@@ -61,7 +60,6 @@ print(dist)
 print(mini)
 print(maxi)
 
-
 cities = [['Aurora', 'Denver', 'Thornton', 'Westminster', 'Centennial', 'Englewood', 'Parker'],
           [39.6887504, 39.7642543, 39.9156658, 39.8933109, 39.6022184, 39.6476682, 39.5080343],
           [-104.8272602, -104.9955381, -105.0200119, -105.1468057, -104.927733, -105.0322957, -104.8359005]]
@@ -75,4 +73,17 @@ plt.plot(df2['Longitude'], df2['Latitude'], 'bs')
 plt.plot(cities[2], cities[1], 'g^')
 plt.plot(home[2], home[1], 'gs')
 plt.axis([-105.5, -104.5, 39.2, 40.2])
-plt.show()
+# plt.show()
+
+my_map4 = folium.Map(location=[home[1][0], home[2][0]], zoom_start=12)
+
+for a in range(len(df.index)):
+    print(str(a) + ": " + str(df['URL'][a]) + ": " + str(df['Latitude'][a]) + ": " + str(df['Longitude'][a]))
+    folium.Marker([df['Latitude'][a], df['Longitude'][a]], popup=df['URL'][a]).add_to(my_map4)
+
+# Add a line to the map by using line method .
+# it connect both coordiates by the line
+# line_opacity implies intensity of the line
+
+
+my_map4.save("my_map4.html")
