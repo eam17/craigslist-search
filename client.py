@@ -51,7 +51,8 @@ class MyClient(discord.Client):
                         print(old_post_title_id)
                         print(old_post_title.text)
                         words.append(new_post_link)
-                        arr = new_post_title.text + new_post_link
+                        post_hood = post.find('span', class_='result-hood').text
+                        arr = new_post_title.text + post_hood + new_post_link
                         await channel.send(arr)
                         counter += 1
                     else:

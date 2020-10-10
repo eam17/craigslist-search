@@ -3,6 +3,7 @@ from sys import maxsize
 import pandas as pd
 import matplotlib.pyplot as plt
 import folium
+from folium import IFrame
 
 df = pd.read_csv('result.csv')
 # print(df)
@@ -38,7 +39,7 @@ df = df[close]
 df = df.reset_index(drop=True)
 print(df)
 
-df.iloc[0] = ["", "", 39.7190608, -104.8170952]
+df.iloc[0] = ["", 39.7190608, -104.8170952]
 
 dist = [[0] * len(df.index)] * len(df.index)
 mini = 10
@@ -77,13 +78,29 @@ plt.axis([-105.5, -104.5, 39.2, 40.2])
 
 my_map4 = folium.Map(location=[home[1][0], home[2][0]], zoom_start=12)
 
+
+def getHref(url):
+
+    html = """
+        <a href="{url}" target="_blank">{url}</a>
+        """.format(url=url)
+    iframe = IFrame(html=html, width=300, height=100)
+    popup = folium.Popup(iframe, max_width=2650)
+    return popup
+
+
 for a in range(len(df.index)):
     print(str(a) + ": " + str(df['URL'][a]) + ": " + str(df['Latitude'][a]) + ": " + str(df['Longitude'][a]))
-    folium.Marker([df['Latitude'][a], df['Longitude'][a]], popup=df['URL'][a]).add_to(my_map4)
+    folium.Marker([df['Latitude'][a], df['Longitude'][a]], popup=getHref(df['URL'][a])).add_to(my_map4)
 
 # Add a line to the map by using line method .
 # it connect both coordiates by the line
+#fig, ax = plt.subplots(figsize=(width, height))
+#ax = df.plot(ax=ax, legend=False)
+
 # line_opacity implies intensity of the line
 
 
 my_map4.save("my_map4.html")
+
+

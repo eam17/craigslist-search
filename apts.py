@@ -1,7 +1,7 @@
 # import get to call a get request on the site
 from requests import get
 
-# get the first page of the east bay housing prices
+import re
 
 
 from bs4 import BeautifulSoup
@@ -73,3 +73,24 @@ def find_posts_key_r(keyarray, url):
             if keyword in post_title_lst:
                 found_posts_key_arr.append(post)
     return found_posts_key_arr.copy()
+
+
+url = 'https://denver.craigslist.org/search/zip?'
+
+def test_find_posts(urlKey):
+    response = get(urlKey)
+    # print("got response")
+    html_soup = BeautifulSoup(response.text, 'html.parser')
+    # get the macro-container for the posts
+    posts = html_soup.find_all('li', class_='result-row')
+    #print(posts[0])
+    post_title = posts[0].find('a', class_='result-title hdrlnk').text
+    post_price = posts[0].find('span', class_='result-price').text
+    post_hood = posts[0].find('span', class_='result-hood').text
+    print(post_title)
+    print(post_hood)
+    post_price = re.sub('[!@#$]', '', post_price)
+    print(int(post_price))
+
+
+test_find_posts(url)
