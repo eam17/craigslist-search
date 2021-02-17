@@ -57,16 +57,17 @@ class MyClient(discord.Client):
                         counter += 1
                     else:
                         break
-                #print(words)
-                #msg = " ".join(words).copy()
-                #print(str(msg))
-                #hi = "hi"
-                #print(msg)
-                #await channel.send(msg)
-                # await channel.send("Found ", counter, " new posts --- ", datetime.now().strftime("%H:%M:%S"))
+                print(words)
+                msg = " ".join(words).copy()
+                print(str(msg))
+                print(msg)
+                await channel.send(msg)
+                await channel.send("Found ", counter, " new posts --- ", datetime.now().strftime("%H:%M:%S"))
                 old_found_posts = list(new_found_posts)
             print("Found ", counter, " new posts --- ", datetime.now().strftime("%H:%M:%S"))
+            await channel.send(datetime.now().strftime("%H:%M:%S"))
             await asyncio.sleep(300)  # task runs every 300 seconds
+
 
 
 client = MyClient()

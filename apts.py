@@ -36,7 +36,7 @@ def find_posts():
 
 
 def find_posts_key(keyarray, url):
-    response = get('https://denver.craigslist.org/search/zip?')
+    response = get(url)
     print("got response")
     html_soup = BeautifulSoup(response.text, 'html.parser')
     # get the macro-container for the posts
@@ -47,10 +47,11 @@ def find_posts_key(keyarray, url):
         post_title_lst = convert(post_title)
         for keyword in keyarray:
             if keyword in post_title_lst:
+                print(post_title)
                 found_posts_key_arr.append(post)
     return found_posts_key_arr.copy()
 
-
+# Converts a string of words into a list of lowercase strings
 def convert(lst):
     lst = lst.split()
     resultList = []
@@ -71,6 +72,7 @@ def find_posts_key_r(keyarray, url):
         post_title_lst = convert(post_title)
         for keyword in keyarray:
             if keyword in post_title_lst:
+                print(post_title)
                 found_posts_key_arr.append(post)
     return found_posts_key_arr.copy()
 
@@ -93,4 +95,7 @@ def test_find_posts(urlKey):
     print(int(post_price))
 
 
-test_find_posts(url)
+#test_find_posts(url)
+
+keyarray = ["bike", "table", "ikea", "wood", "plane", "tool", "tools", "chisel", "chisels", "desk", "saw"]
+find_posts_key(keyarray,"https://denver.craigslist.org/search/zip?")
